@@ -6,5 +6,5 @@ Repositorio con el código fuente de ejemplos llevados a cabo durante el curso: 
 
 Puede clonar el siguiente repositorio de la siguiente manera:
 ~~~
-git@github.com:lizarragadev/AFD-200-Flutter.git
+git clone git@github.com:lizarragadev/AFD-200-Flutter.git
 ~~~
