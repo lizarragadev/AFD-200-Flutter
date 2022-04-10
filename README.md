@@ -1,6 +1,6 @@
 # AFD-200-Flutter
 
-Repositorio con el código fuente de ejemplos llevados a cabo durante el curso: AFD-200 (Flutter Application Development).
+Repositorio con el código fuente de ejemplos y challenges llevados a cabo durante el curso: AFD-200 (Flutter Application Development).
 
 ### Clonar este repositorio
 
