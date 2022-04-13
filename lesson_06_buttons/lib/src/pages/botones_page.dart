@@ -11,7 +11,33 @@ class _BotonesPageState extends State<BotonesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Botones"),),
+      appBar: AppBar(
+        title: Text("Botones"),
+        actions: [
+          IconButton(
+              tooltip: "Boton email",
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Hizo click")));
+              },
+              icon: Icon(Icons.email)
+          ),
+          IconButton(
+              tooltip: "Boton eliminar",
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Hizo click")));
+              },
+              icon: Icon(Icons.delete)
+          ),
+          PopupMenuButton(itemBuilder: (BuildContext ctx) => [
+            PopupMenuItem(child: Text("Opcion 1"), value: '1'),
+            PopupMenuItem(child: Text("Opcion 2"), value: '2'),
+            PopupMenuItem(child: Text("Opcion 3"), value: '3'),
+          ],
+          onSelected: (selectedValue) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Selecciono: $selectedValue")));
+          },)
+        ],
+      ),
       body: _body(),
       floatingActionButton: FloatingActionButton(
         onPressed: _hizoClick,
@@ -39,15 +65,15 @@ class _BotonesPageState extends State<BotonesPage> {
             alignment: MainAxisAlignment.spaceEvenly,
             children: [
               OutlinedButton(
-                  onPressed: _hizoClick,
-                  child: Text("Boton 1"),
-                  style: OutlinedButton.styleFrom(
+                onPressed: _hizoClick,
+                child: Text("Boton 1"),
+                style: OutlinedButton.styleFrom(
                     shape: StadiumBorder(),
                     side: BorderSide(
-                      width: 1.0,
-                      color: Colors.deepOrange
+                        width: 1.0,
+                        color: Colors.deepOrange
                     )
-                  ),
+                ),
               ),
               OutlinedButton(
                 onPressed: _hizoClick,
@@ -72,7 +98,8 @@ class _BotonesPageState extends State<BotonesPage> {
                 ),
               ),
             ],
-          )
+          ),
+          _createDropDown()
         ],
       ),
     );
@@ -81,4 +108,33 @@ class _BotonesPageState extends State<BotonesPage> {
   void _hizoClick() {
     print("Hizo click");
   }
+
+  Widget _createDropDown() {
+    List<String> items = ['Bolivia', 'Brazil', 'Chile', 'Colombia'];
+    String valorSeleccionado = items[0];
+    return DropdownButton(
+        value: valorSeleccionado,
+        items: items.map((String value) {
+          return DropdownMenuItem(
+            child: Row(
+              children: [
+                Icon(Icons.settings, size: 15,),
+                SizedBox(width: 10.0,),
+                Text(value)
+              ],
+            ),
+            value: value,
+          );
+        }).toList(),
+        onChanged: (String? nuevoValor) {
+          setState(() {
+            valorSeleccionado = nuevoValor!;
+            print(" ++++++++++++++ $nuevoValor");
+            print(" ++++++++++++++ $valorSeleccionado");
+          });
+        },
+    );
+  }
 }
+
+
