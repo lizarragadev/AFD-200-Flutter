@@ -8,6 +8,9 @@ class BotonesPage extends StatefulWidget {
 }
 
 class _BotonesPageState extends State<BotonesPage> {
+  List<String> items = ['Bolivia', 'Brazil', 'Chile', 'Colombia'];
+  String? valorSeleccionado = 'Bolivia';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +102,26 @@ class _BotonesPageState extends State<BotonesPage> {
               ),
             ],
           ),
-          _createDropDown()
+          DropdownButton(
+            value: valorSeleccionado,
+            items: items.map((value) {
+              return DropdownMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.settings, size: 15,),
+                    SizedBox(width: 10.0,),
+                    Text(value)
+                  ],
+                ),
+                value: value,
+              );
+            }).toList(),
+            onChanged: (nuevoValor) {
+              setState(() {
+                valorSeleccionado = nuevoValor.toString();
+              });
+            },
+          )
         ],
       ),
     );
@@ -109,32 +131,6 @@ class _BotonesPageState extends State<BotonesPage> {
     print("Hizo click");
   }
 
-  Widget _createDropDown() {
-    List<String> items = ['Bolivia', 'Brazil', 'Chile', 'Colombia'];
-    String valorSeleccionado = items[0];
-    return DropdownButton(
-        value: valorSeleccionado,
-        items: items.map((String value) {
-          return DropdownMenuItem(
-            child: Row(
-              children: [
-                Icon(Icons.settings, size: 15,),
-                SizedBox(width: 10.0,),
-                Text(value)
-              ],
-            ),
-            value: value,
-          );
-        }).toList(),
-        onChanged: (String? nuevoValor) {
-          setState(() {
-            valorSeleccionado = nuevoValor!;
-            print(" ++++++++++++++ $nuevoValor");
-            print(" ++++++++++++++ $valorSeleccionado");
-          });
-        },
-    );
-  }
 }
 
 
