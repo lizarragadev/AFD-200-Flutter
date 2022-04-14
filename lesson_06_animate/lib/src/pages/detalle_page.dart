@@ -23,4 +23,5 @@ class DetallePage extends StatelessWidget {
       ),
     );
   }
+
 }
