@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lesson_07/src/pages/home_page.dart';
+import 'package:lesson_07/src/pages/error_page.dart';
+import 'package:lesson_07/src/routes/routes.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -7,7 +8,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      initialRoute: '/',
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(builder: (context) {
+          return ErrorPage();
+        });
+      },
     );
   }
 }

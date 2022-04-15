@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final opciones = ["Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5"];
+  //final opciones2 = ["Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5"];
+
+  final opciones = {
+    "/bottomNav": "Bottom Navigation Bar",
+    "/tabs": "Tab Bars",
+    "/drawers": "Drawers",
+    "/listView": "ListView y ListTiles",
+    "/dataTable": "Data Tables",
+    "/selectableText": "Selectable Text",
+    "/stack": "Stacks",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -13,22 +23,24 @@ class HomePage extends StatelessWidget {
         title: Text("Menú Inicio"),
       ),
       body: ListView(
-        children: _crearItems(),
+        children: _crearItems(context),
       ),
     );
   }
 
-  List<Widget> _crearItems() {
+  List<Widget> _crearItems(context) {
     List<Widget> lista = [];
-    opciones.forEach((element) {
+    opciones.forEach((key, value) {
       final tempWidget = ListTile(
-        title: Text(element),
-        subtitle: Text("Descrion del Item"),
-        leading: Icon(Icons.ac_unit),
+        title: Text(value),
+        leading: Icon(Icons.android_sharp),
         trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          Navigator.pushNamed(context, key);
+        },
       );
       lista..add(tempWidget)
-           ..add(Divider());
+        ..add(Divider());
     });
     return lista;
   }
