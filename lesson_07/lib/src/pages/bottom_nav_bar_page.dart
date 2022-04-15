@@ -16,62 +16,106 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
     const Page4(),
   ];
 
+  PreferredSizeWidget _appBarCustom = AppBar(
+      title: Text("Inicio"),
+      backgroundColor: Colors.amberAccent,
+  );
+
+  modifyAppBar(color, titulo) {
+    setState(() {
+      _appBarCustom = AppBar(
+        title: Text(titulo),
+        backgroundColor: color,
+      );
+    });
+  }
+
+  void seleccionTab(int position) {
+    switch(position) {
+      case 0: modifyAppBar(Colors.amberAccent, "Inicio");
+      break;
+      case 1: modifyAppBar(Colors.deepOrangeAccent, "Favoritos");
+      break;
+      case 2: modifyAppBar(Colors.green, "Imagenes");
+      break;
+      case 3: modifyAppBar(Colors.black, "Perfil");
+      break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Bottom Navigation Bar"),
-      ),
+      appBar: _appBarCustom,
       body: pages[selectedPage],
-      bottomNavigationBar: BottomNavigationBar(
-        //Solo fondo blanco
-        // type: BottomNavigationBarType.fixed,
-
-        // Vista Normal
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.blue,
-        fixedColor: Colors.white,
-        unselectedItemColor: Colors.black26,
-
-        // Eliminar label
-        //showSelectedLabels: false,
-        //showUnselectedLabels: false,
-
-        // Fondo de color e iconos de colores
-        // type: BottomNavigationBarType.fixed,
-        // backgroundColor: Colors.blue,
-        // selectedItemColor: Colors.deepOrange,
-        // unselectedItemColor: Colors.greenAccent,
-
-        // Fondo blanco con shifting
-        // type: BottomNavigationBarType.fixed,
-        // selectedItemColor: Colors.deepOrangeAccent,
-        // unselectedItemColor: Colors.lightGreen,
-
-        currentIndex: selectedPage,
-        onTap: (position) {
-          setState(() {
-            selectedPage = position;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Inicio"
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(left: 10.0, right: 10.0),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0)
+            ),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, blurRadius: 10, spreadRadius: 5)
+          ]
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0)
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: "Favoritos"
+          child: BottomNavigationBar(
+            //Solo fondo blanco
+            // type: BottomNavigationBarType.fixed,
+
+            // Vista Normal
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.blue,
+            fixedColor: Colors.white,
+            unselectedItemColor: Colors.black26,
+
+            // Eliminar label
+            //showSelectedLabels: false,
+            //showUnselectedLabels: false,
+
+            // Fondo de color e iconos de colores
+            // type: BottomNavigationBarType.fixed,
+            // backgroundColor: Colors.blue,
+            // selectedItemColor: Colors.deepOrange,
+            // unselectedItemColor: Colors.greenAccent,
+
+            // Fondo blanco con shifting
+            // type: BottomNavigationBarType.fixed,
+            // selectedItemColor: Colors.deepOrangeAccent,
+            // unselectedItemColor: Colors.lightGreen,
+
+            currentIndex: selectedPage,
+            onTap: (position) {
+              setState(() {
+                selectedPage = position;
+                seleccionTab(position);
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "Inicio"
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.star),
+                  label: "Favoritos"
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.image),
+                  label: "Imagenes"
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: "Perfil"
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.image),
-              label: "Imagenes"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: "Perfil"
-          ),
-        ],
+        ),
       ),
     );
   }
