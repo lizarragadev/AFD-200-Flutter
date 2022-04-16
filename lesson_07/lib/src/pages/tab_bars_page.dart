@@ -47,10 +47,32 @@ class Tab1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ListView(
-        children: [
+        children: const [
           ListTile(
             title: Text("Lista de elementos"),
-          )
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),ListTile(
+            title: Text("Lista de elementos"),
+          ),
         ],
       ),
     );
@@ -64,12 +86,58 @@ class Tab2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ListView(
-        children: [
+        children: const [
           ListTile(
             title: Text("Historial de propiedades"),
             subtitle: Text("Detalle del historial de propiedades y procesos"),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
-          )
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          ListTile(
+            title: Text("Historial de propiedades"),
+            subtitle: Text("Detalle del historial de propiedades y procesos"),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          ),
+          
         ],
       ),
     );
