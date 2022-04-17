@@ -137,7 +137,7 @@ class Tab2 extends StatelessWidget {
             subtitle: Text("Detalle del historial de propiedades y procesos"),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           ),
-          
+
         ],
       ),
     );
