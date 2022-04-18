@@ -4,7 +4,6 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   //final opciones2 = ["Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5"];
-
   final opciones = {
     "/bottomNav": "Bottom Navigation Bar",
     "/tabs": "Tab Bars",
