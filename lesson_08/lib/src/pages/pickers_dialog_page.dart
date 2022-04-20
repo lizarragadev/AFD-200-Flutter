@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PickersDialogPage extends StatefulWidget {
@@ -87,11 +88,114 @@ class _PickersDialogPageState extends State<PickersDialogPage> {
               ),
               Text("${ time.hour }:${ time.minute }",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+              SizedBox(height: 30,),
+              ElevatedButton(
+                  onPressed: () {
+                    openDialogMaterial();
+                  },
+                  child: Text("Abrir dialogo Material")
+              ),
+              SizedBox(height: 30,),
+              ElevatedButton(
+                  onPressed: () {
+                    openDialogCupertino();
+                  },
+                  child: Text("Abrir dialogo Cupertino")
+              ),
+              SizedBox(height: 30,),
+              ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          return CustomDialogBox(
+                            title: "Dialogo Personalizado",
+                            descriptions: "Este es un ejemplo de un dialogo personalizado que tiene una imagen y personalizacion a nuestro dialogo.",
+                            text: "Aceptar",
+                          );
+                        }
+                    );
+                  },
+                  child: Text("Abrir dialogo personalizado")
+              ),
             ],
           ),
         )
     );
   }
+
+  void openDialogMaterial() {
+    var alertDialog = AlertDialog(
+      title: Text("Confirmación"),
+      content: Text("¿Desea realizar la operación?"),
+      backgroundColor: Colors.green.shade100,
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Cancelar"),
+          style: TextButton.styleFrom(
+            primary: Colors.redAccent
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Aceptar"),
+          style: TextButton.styleFrom(
+              primary: Colors.green
+          ),
+        ),
+      ],
+    );
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) {
+          return alertDialog;
+        }
+    );
+  }
+
+  void openDialogCupertino() {
+    var alertDialog = CupertinoAlertDialog(
+      title: Text("Confirmación"),
+      content: Text("¿Desea realizar la operación?"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Cancelar"),
+          style: TextButton.styleFrom(
+              primary: Colors.redAccent
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Aceptar"),
+          style: TextButton.styleFrom(
+              primary: Colors.green
+          ),
+        ),
+      ],
+    );
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) {
+          return alertDialog;
+        }
+    );
+  }
+
 }
 
 
