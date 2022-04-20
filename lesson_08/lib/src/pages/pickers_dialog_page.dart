@@ -8,13 +8,88 @@ class PickersDialogPage extends StatefulWidget {
 }
 
 class _PickersDialogPageState extends State<PickersDialogPage> {
+  DateTime date = DateTime.now();
+  DateTime? pickerDate;
+
+  bool _elegirFechas(DateTime day) {
+    if((day.isAfter(DateTime.now().subtract(Duration(days: 5)))) &&
+        (day.isBefore(DateTime.now().add(Duration(days: 10))))) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> _selectDate(context) async {
+    pickerDate = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2025),
+        selectableDayPredicate: _elegirFechas
+    );
+    if(pickerDate != null && pickerDate != date) {
+      setState(() {
+        date = pickerDate!;
+        print(date);
+      });
+    }
+  }
+
+  TimeOfDay time = TimeOfDay.now();
+  TimeOfDay? pickedTime;
+
+  Future<void> _selectHour(context) async {
+    pickedTime = await showTimePicker(
+        context: context,
+        initialTime: time
+    );
+    setState(() {
+      time = pickedTime!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Pickers & Dialogs'),
         ),
-        body: Text("Hola")
+        body: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Seleccione una fecha: "),
+                  IconButton(
+                      onPressed: () { 
+                        _selectDate(context);
+                      },
+                      icon: Icon(Icons.date_range)
+                  )
+                ],
+              ),
+              Text("${ date.day }/${ date.month }/${ date.year}",
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+              SizedBox(height: 30,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Seleccione una hora: "),
+                  IconButton(
+                      onPressed: () {
+                        _selectHour(context);
+                      },
+                      icon: Icon(Icons.watch_later_outlined)
+                  )
+                ],
+              ),
+              Text("${ time.hour }:${ time.minute }",
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+            ],
+          ),
+        )
     );
   }
 }
