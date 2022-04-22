@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson_09/src/routes/routes.dart';
+import 'package:lesson_09/src/utils/utils.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -8,6 +11,13 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String correo = "";
+  String contrasenia = "";
+  final MENSAJE_ERROR = 1;
+  final MENSAJE_EXITOSO = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +115,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     hintText: "Ingrese su email",
                                     hintStyle: TextStyle(color: Colors.grey[400])
                                 ),
+                                onChanged: (nuevoValor) {
+                                  setState(() {
+                                    correo = nuevoValor;
+                                  });
+                                },
                               ),
                             ),
                             Container(
@@ -116,6 +131,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     hintText: "Ingrese su contraseña",
                                     hintStyle: TextStyle(color: Colors.grey[400])
                                 ),
+                                onChanged: (nuevoValor) {
+                                  setState(() {
+                                    contrasenia = nuevoValor;
+                                  });
+                                },
                               ),
                             )
                           ],
@@ -139,7 +159,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         onTap: () {
-
+                          //Navigator.pushReplacementNamed(context, RoutePaths.loginPage);
+                          validarUsuario();
                         },
                         splashColor: Colors.blue,
                       ),
@@ -152,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           GestureDetector(
                             child: const Text("Inicia Sesión", style: TextStyle(color: Color.fromRGBO(32, 97, 149, 0.6), fontWeight: FontWeight.bold),),
                             onTap: () {
-
+                              Navigator.pushReplacementNamed(context, RoutePaths.loginPage);
                             },
                           )
                         ],
@@ -166,4 +187,43 @@ class _RegisterPageState extends State<RegisterPage> {
         )
     );
   }
+
+  void validarUsuario() {
+    if(correo.isNotEmpty && contrasenia.isNotEmpty) {
+      if(contrasenia.length >= 6) {
+        registrarUsuario();
+      } else {
+        mostrarMensaje(context, "La contraseña debe tener al menos 6 caracteres.", MENSAJE_ERROR);
+      }
+    } else {
+      mostrarMensaje(context, "Existen campos vacíos", MENSAJE_ERROR);
+    }
+  }
+
+  Future<void> registrarUsuario() async {
+    try {
+      showBarraProgreso(context, "Registrando");
+      final newUser = await _auth.createUserWithEmailAndPassword(email: correo, password: contrasenia);
+      Navigator.of(context).pop();
+      if(newUser != null) {
+        mostrarMensaje(context, "Registro exitoso", MENSAJE_EXITOSO);
+        Navigator.pushReplacementNamed(context, RoutePaths.loginPage);
+      }
+    } on FirebaseAuthException catch(err) {
+      mostrarMensaje(context, "Error: ${err.code}", MENSAJE_ERROR);
+      Navigator.of(context).pop();
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+

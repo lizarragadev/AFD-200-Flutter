@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson_09/src/routes/routes.dart';
+import 'package:lesson_09/src/utils/utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -8,6 +11,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String correo = "";
+  String contrasenia = "";
+  final MENSAJE_ERROR = 1;
+  final MENSAJE_EXITOSO = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +114,11 @@ class _LoginPageState extends State<LoginPage> {
                                     hintText: "Ingrese su email",
                                     hintStyle: TextStyle(color: Colors.grey[400])
                                 ),
+                                onChanged: (nuevoValor) {
+                                  setState(() {
+                                    correo = nuevoValor;
+                                  });
+                                },
                               ),
                             ),
                             Container(
@@ -116,6 +130,11 @@ class _LoginPageState extends State<LoginPage> {
                                     hintText: "Ingrese su contraseña",
                                     hintStyle: TextStyle(color: Colors.grey[400])
                                 ),
+                                onChanged: (nuevoValor) {
+                                  setState(() {
+                                    contrasenia = nuevoValor;
+                                  });
+                                },
                               ),
                             )
                           ],
@@ -139,7 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         onTap: () {
-
+                          //Navigator.pushReplacementNamed(context, RoutePaths.homePage);
+                          validarUsuario();
                         },
                         splashColor: Colors.deepPurpleAccent,
                       ),
@@ -152,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                           GestureDetector(
                             child: const Text("Regístrate", style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1), fontWeight: FontWeight.bold),),
                             onTap: () {
-
+                              Navigator.pushReplacementNamed(context, RoutePaths.registerPage);
                             },
                           )
                         ],
@@ -165,5 +185,32 @@ class _LoginPageState extends State<LoginPage> {
           ),
         )
     );
+  }
+
+  void validarUsuario() {
+    if(correo.isNotEmpty && contrasenia.isNotEmpty) {
+      if(contrasenia.length >= 6) {
+        loginUsuario();
+      } else {
+        mostrarMensaje(context, "La contraseña debe tener al menos 6 caracteres.", MENSAJE_ERROR);
+      }
+    } else {
+      mostrarMensaje(context, "Existen campos vacíos", MENSAJE_ERROR);
+    }
+  }
+
+  Future<void> loginUsuario() async {
+    try {
+      showBarraProgreso(context, "Iniciando sesión");
+      final loginUser = await _auth.signInWithEmailAndPassword(email: correo, password: contrasenia);
+      Navigator.of(context).pop();
+      if(loginUser != null) {
+        mostrarMensaje(context, "Bienvenido.", MENSAJE_EXITOSO);
+        Navigator.pushReplacementNamed(context, RoutePaths.homePage);
+      }
+    } on FirebaseAuthException catch(err) {
+      mostrarMensaje(context, "Error: ${err.code}", MENSAJE_ERROR);
+      Navigator.of(context).pop();
+    }
   }
 }
