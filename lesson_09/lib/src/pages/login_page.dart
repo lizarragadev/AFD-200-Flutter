@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson_09/src/routes/routes.dart';
+import 'package:lesson_09/src/utils/constantes.dart';
 import 'package:lesson_09/src/utils/utils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,8 +15,6 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String correo = "";
   String contrasenia = "";
-  final MENSAJE_ERROR = 1;
-  final MENSAJE_EXITOSO = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                               padding: EdgeInsets.all(8.0),
                               child: TextField(
+                                obscureText: true,
                                 autofocus: false,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -192,10 +192,10 @@ class _LoginPageState extends State<LoginPage> {
       if(contrasenia.length >= 6) {
         loginUsuario();
       } else {
-        mostrarMensaje(context, "La contraseña debe tener al menos 6 caracteres.", MENSAJE_ERROR);
+        mostrarMensaje(context, "La contraseña debe tener al menos 6 caracteres.", Constantes.MENSAJE_ERROR);
       }
     } else {
-      mostrarMensaje(context, "Existen campos vacíos", MENSAJE_ERROR);
+      mostrarMensaje(context, "Existen campos vacíos", Constantes.MENSAJE_ERROR);
     }
   }
 
@@ -205,11 +205,11 @@ class _LoginPageState extends State<LoginPage> {
       final loginUser = await _auth.signInWithEmailAndPassword(email: correo, password: contrasenia);
       Navigator.of(context).pop();
       if(loginUser != null) {
-        mostrarMensaje(context, "Bienvenido.", MENSAJE_EXITOSO);
+        mostrarMensaje(context, "Bienvenido.", Constantes.MENSAJE_EXITOSO);
         Navigator.pushReplacementNamed(context, RoutePaths.homePage);
       }
     } on FirebaseAuthException catch(err) {
-      mostrarMensaje(context, "Error: ${err.code}", MENSAJE_ERROR);
+      mostrarMensaje(context, "Error: ${err.code}", Constantes.MENSAJE_ERROR);
       Navigator.of(context).pop();
     }
   }

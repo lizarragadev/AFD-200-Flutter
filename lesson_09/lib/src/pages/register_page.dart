@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson_09/src/routes/routes.dart';
+import 'package:lesson_09/src/utils/constantes.dart';
 import 'package:lesson_09/src/utils/utils.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -15,8 +16,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String correo = "";
   String contrasenia = "";
-  final MENSAJE_ERROR = 1;
-  final MENSAJE_EXITOSO = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -193,10 +192,10 @@ class _RegisterPageState extends State<RegisterPage> {
       if(contrasenia.length >= 6) {
         registrarUsuario();
       } else {
-        mostrarMensaje(context, "La contraseña debe tener al menos 6 caracteres.", MENSAJE_ERROR);
+        mostrarMensaje(context, "La contraseña debe tener al menos 6 caracteres.", Constantes.MENSAJE_ERROR);
       }
     } else {
-      mostrarMensaje(context, "Existen campos vacíos", MENSAJE_ERROR);
+      mostrarMensaje(context, "Existen campos vacíos", Constantes.MENSAJE_ERROR);
     }
   }
 
@@ -206,11 +205,11 @@ class _RegisterPageState extends State<RegisterPage> {
       final newUser = await _auth.createUserWithEmailAndPassword(email: correo, password: contrasenia);
       Navigator.of(context).pop();
       if(newUser != null) {
-        mostrarMensaje(context, "Registro exitoso", MENSAJE_EXITOSO);
+        mostrarMensaje(context, "Registro exitoso", Constantes.MENSAJE_EXITOSO);
         Navigator.pushReplacementNamed(context, RoutePaths.loginPage);
       }
     } on FirebaseAuthException catch(err) {
-      mostrarMensaje(context, "Error: ${err.code}", MENSAJE_ERROR);
+      mostrarMensaje(context, "Error: ${err.code}", Constantes.MENSAJE_ERROR);
       Navigator.of(context).pop();
     }
   }

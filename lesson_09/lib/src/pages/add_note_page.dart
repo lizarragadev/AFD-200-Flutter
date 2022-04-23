@@ -1,5 +1,12 @@
 
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson_09/src/utils/constantes.dart';
+import 'package:lesson_09/src/utils/utils.dart';
+import 'package:uuid/uuid.dart';
 
 class AddNotePage extends StatefulWidget {
   const AddNotePage({Key? key}) : super(key: key);
@@ -9,6 +16,8 @@ class AddNotePage extends StatefulWidget {
 }
 
 class _AddNotePageState extends State<AddNotePage> {
+  String titulo = "";
+  String contenido = "";
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +37,9 @@ class _AddNotePageState extends State<AddNotePage> {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (nuevoValor) {
-
+                  setState(() {
+                    titulo = nuevoValor;
+                  });
                 },
                 textCapitalization: TextCapitalization.sentences,
               ),
@@ -39,7 +50,9 @@ class _AddNotePageState extends State<AddNotePage> {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (nuevoValor) {
-
+                  setState(() {
+                    contenido = nuevoValor;
+                  });
                 },
                 maxLines: 3,
                 textCapitalization: TextCapitalization.sentences,
@@ -47,7 +60,7 @@ class _AddNotePageState extends State<AddNotePage> {
               const SizedBox(height: 20,),
               ElevatedButton(
                 onPressed: () {
-
+                  validarForm(Constantes.TYPE_REALTIME);
                 },
                 child: const Text("GUARDAR REALTIME",
                   style: TextStyle(
@@ -63,7 +76,7 @@ class _AddNotePageState extends State<AddNotePage> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-
+                  validarForm(Constantes.TYPE_FIRESTORE);
                 },
                 child: const Text("GUARDAR FIRESTORE",
                   style: TextStyle(
@@ -82,5 +95,66 @@ class _AddNotePageState extends State<AddNotePage> {
       ),
     );
   }
+
+  void validarForm(tipo) {
+    if(titulo.isNotEmpty && contenido.isNotEmpty) {
+      if(tipo == Constantes.TYPE_REALTIME) {
+        guardarNotaRealtime();
+      } else {
+        guardarNotaFirestore();
+      }
+    } else {
+      mostrarMensaje(context, "Existen campos vacíos", Constantes.MENSAJE_ERROR);
+    }
+  }
+
+  Future<void> guardarNotaRealtime() async {
+    try {
+      final fireDatabase = FirebaseDatabase.instance;
+      var refRealtime = fireDatabase.ref().child("${Constantes.NOTAS}/${generarUUID()}");
+      await refRealtime.set({
+        Constantes.N_TITULO: titulo,
+        Constantes.N_CONTENIDO: contenido
+      }).asStream();
+      mostrarMensaje(context, "Se guardó la nota", Constantes.MENSAJE_EXITOSO);
+      Navigator.pop(context);
+    } catch(err) {
+      mostrarMensaje(context, "Error: $err", Constantes.MENSAJE_ERROR);
+      Navigator.pop(context);
+    }
+  }
+
+  Future<void> guardarNotaFirestore() async {
+    try {
+      CollectionReference refFirestore = FirebaseFirestore.instance.collection(Constantes.NOTAS);
+      await refFirestore.add({
+        Constantes.N_TITULO: titulo,
+        Constantes.N_CONTENIDO: contenido
+      }).whenComplete(() {
+        mostrarMensaje(context, "Se guardo correctamente", Constantes.MENSAJE_EXITOSO);
+        Navigator.pop(context);
+      });
+    } on FirebaseException catch(err) {
+      mostrarMensaje(context, "Error: ${err}", Constantes.MENSAJE_ERROR);
+      Navigator.pop(context);
+    }
+  }
+
+  dynamic generarUUID() {
+    return Uuid().v4();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
