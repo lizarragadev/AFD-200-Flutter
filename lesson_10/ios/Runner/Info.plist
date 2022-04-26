@@ -47,5 +47,14 @@
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
 
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Esta aplicacion necesita acceder a la localizacion cuando se abra.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+    <string>Esta aplicacion necesita acceder a la localizacion en segundo plano.</string>
+
+    <key>NSLocationAlwaysAndWhenUseUsageDescripcion</key>
+    <string>Esta aplicacion necesita acceder a la localizacion cuando este este abierto y en segundo plano</string>
+
 </dict>
 </plist>

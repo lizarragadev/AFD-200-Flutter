@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GoogleMapsPage extends StatefulWidget {
@@ -16,6 +18,8 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   Completer<GoogleMapController> _controller = Completer();
   MapType _mapType = MapType.normal;
   final Set<Marker> _markers = {};
+  Position? _currentPosition;
+  String _currentAddress = "";
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +69,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                       elevation: 5,
                       backgroundColor: Colors.blue,
                       onPressed: () {
-
+                        obtenerLocalizacion();
                       }),
                 ]
             ),
@@ -73,6 +77,19 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
 
         ],
       ),
+      persistentFooterButtons: [
+        Center(
+          child: Column(
+            children: [
+              Text("${(_currentPosition!.latitude != null)
+                  ? _currentPosition!.latitude : "Latitud no disponible"},"
+                  "${ (_currentPosition!.longitude != null)
+                  ? _currentPosition!.longitude : "Longitud no disponible"}"),
+              Text("${_currentAddress.isNotEmpty ? _currentAddress : "Dirección no disponible"}")
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -130,6 +147,69 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     });
   }
 
-  
+  Future<void> obtenerLocalizacion() async {
+    _currentPosition = await _determinarPosicion();
+    print(_currentPosition!.latitude);
+    GoogleMapController cont = await _controller.future;
+    cont.animateCamera(
+      CameraUpdate.newLatLngZoom(LatLng(
+          _currentPosition!.latitude,
+          _currentPosition!.longitude), 18.0)
+    );
+
+    setState(() {
+      _markers.clear();
+      _markers.add(
+        Marker(
+          markerId: MarkerId("marcador"),
+          position: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+        )
+      );
+    });
+    _getAddressFromLatLng();
+  }
+
+  Future<Position> _determinarPosicion() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if(!serviceEnabled) {
+      return Future.error("Los servicios de ubicación estan deshabilitados.");
+    }
+    permission = await Geolocator.checkPermission();
+    if(permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if(permission == LocationPermission.denied) {
+        return Future.error("Los permisos de ubicacion fueron denegados");
+      }
+    }
+    if(permission == LocationPermission.deniedForever) {
+      return Future.error("Los permisos de ubicacion se negaron permanentemente, no podemos solicitar permisos.");
+    }
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> _getAddressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        _currentPosition!.latitude, _currentPosition!.longitude
+      );
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress = "${place.street}, ${place.locality}, ${place.subLocality},"
+            " ${place.postalCode}, ${place.country}";
+      });
+    } catch(err) {
+      print(err);
+    }
+  }
+
+
+
+
+
+
+
+
 }
 
