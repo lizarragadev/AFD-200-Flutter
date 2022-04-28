@@ -13,13 +13,16 @@ class GoogleMapsPage extends StatefulWidget {
 }
 
 class _GoogleMapsPageState extends State<GoogleMapsPage> {
-  final CameraPosition _posicionInicial = const CameraPosition(
-      target: LatLng(-16.504314, -68.131061), zoom: 17.0);
-  Completer<GoogleMapController> _controller = Completer();
+
+  final Completer<GoogleMapController> _controller = Completer();
   MapType _mapType = MapType.normal;
+
+  final CameraPosition _posicionInicial = const CameraPosition(
+      target: LatLng(-16.529824, -68.101117), zoom: 16.0);
   final Set<Marker> _markers = {};
+
   Position? _currentPosition;
-  String _currentAddress = "";
+  String _currentAddress = "No disponible";
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +33,16 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       body: Stack(
         children: [
           GoogleMap(
-            initialCameraPosition: _posicionInicial,
             onMapCreated: _onMapCreated,
+            initialCameraPosition: _posicionInicial,
             mapType: _mapType,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
             markers: _markers,
+            rotateGesturesEnabled: true,
+            scrollGesturesEnabled: true,
+            tiltGesturesEnabled: true,
+            zoomGesturesEnabled: true,
           ),
           Container(
             margin: const EdgeInsets.only(top: 80, right: 10),
@@ -81,11 +90,14 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
         Center(
           child: Column(
             children: [
-              Text("${(_currentPosition!.latitude != null)
-                  ? _currentPosition!.latitude : "Latitud no disponible"},"
-                  "${ (_currentPosition!.longitude != null)
-                  ? _currentPosition!.longitude : "Longitud no disponible"}"),
-              Text("${_currentAddress.isNotEmpty ? _currentAddress : "Dirección no disponible"}")
+              Text("${(_currentPosition?.latitude != null) ? _currentPosition
+                  ?.latitude : "Latitud no dispoinible"}, ${(_currentPosition
+                  ?.longitude != null)
+                  ? _currentPosition?.longitude
+                  : "Longitud no disponible"}"),
+              Text((_currentAddress.isNotEmpty)
+                  ? _currentAddress
+                  : "Dirección no disponible"),
             ],
           ),
         )
@@ -99,117 +111,106 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
 
   void _cambiarTipoMapa() {
     setState(() {
-      _mapType = (_mapType == MapType.normal) ? MapType.hybrid : MapType.normal;
+      _mapType =
+      _mapType == MapType.normal ? MapType.satellite : MapType.normal;
     });
   }
 
   Future<void> _irACochabamba() async {
-    LatLng coord = LatLng(-17.394070, -66.157041);
-    GoogleMapController control = await _controller.future;
-    control.animateCamera(CameraUpdate.newLatLngZoom(coord, 18.0));
+    double lat = -17.393799;
+    double long = -66.157104;
+    GoogleMapController controller = await _controller.future;
+    controller.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, long), 18.0));
     setState(() {
       _markers.clear();
       _markers.add(
         Marker(
-            markerId: MarkerId("cbba"),
-            position: coord,
+            markerId: const MarkerId('cbba'),
+            position: LatLng(lat, long),
             infoWindow: const InfoWindow(
-              title: "Cochabamba",
-              snippet: "Plaza 14 de Septiembre"
-            ),
-            onTap: () {
-              // accion click
-            }
-        )
+                title: 'Cochabamba', snippet: 'Plaza 14 de Septiembre')
+        ),
       );
     });
   }
 
   Future<void> _irALaPaz() async {
-    LatLng coord = LatLng(-16.495416, -68.133435);
-    GoogleMapController control = await _controller.future;
-    control.animateCamera(CameraUpdate.newLatLngZoom(coord, 18.0));
-    setState(() {
-      _markers.clear();
-      _markers.add(
-          Marker(
-              markerId: MarkerId("lpz"),
-              position: coord,
-              infoWindow: const InfoWindow(
-                  title: "La Paz",
-                  snippet: "Plaza Murillo"
-              ),
-              onTap: () {
-                // accion click
-              }
-          )
-      );
-    });
-  }
-
-  Future<void> obtenerLocalizacion() async {
-    _currentPosition = await _determinarPosicion();
-    print(_currentPosition!.latitude);
-    GoogleMapController cont = await _controller.future;
-    cont.animateCamera(
-      CameraUpdate.newLatLngZoom(LatLng(
-          _currentPosition!.latitude,
-          _currentPosition!.longitude), 18.0)
-    );
-
+    double lat = -16.495825;
+    double long = -68.133454;
+    GoogleMapController controller = await _controller.future;
+    controller.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, long), 18.0));
     setState(() {
       _markers.clear();
       _markers.add(
         Marker(
-          markerId: MarkerId("marcador"),
-          position: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-        )
+            markerId: const MarkerId('lpz'),
+            position: LatLng(lat, long),
+            infoWindow: const InfoWindow(
+                title: 'La Paz', snippet: 'Plaza Murillo')
+        ),
+      );
+    });
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Los servicios de ubicación están deshabilitados.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Los permisos de ubicación están denegados');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Los permisos de ubicación se niegan permanentemente, no podemos solicitar permisos.');
+    }
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> obtenerLocalizacion() async {
+    _currentPosition = await _determinePosition();
+    GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(_currentPosition!.latitude, _currentPosition!.longitude), 18.0));
+    setState(() {
+      _markers.clear();
+      _markers.add(
+        Marker(
+            markerId: const MarkerId('posicion'),
+            position: LatLng(
+                _currentPosition!.latitude, _currentPosition!.longitude),
+            infoWindow: const InfoWindow(
+                title: 'Posición actual', snippet: 'Posición actual')
+        ),
       );
     });
     _getAddressFromLatLng();
   }
 
-  Future<Position> _determinarPosicion() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if(!serviceEnabled) {
-      return Future.error("Los servicios de ubicación estan deshabilitados.");
-    }
-    permission = await Geolocator.checkPermission();
-    if(permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if(permission == LocationPermission.denied) {
-        return Future.error("Los permisos de ubicacion fueron denegados");
-      }
-    }
-    if(permission == LocationPermission.deniedForever) {
-      return Future.error("Los permisos de ubicacion se negaron permanentemente, no podemos solicitar permisos.");
-    }
-    return await Geolocator.getCurrentPosition();
-  }
-
-  Future<void> _getAddressFromLatLng() async {
+  void _getAddressFromLatLng() async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
-        _currentPosition!.latitude, _currentPosition!.longitude
+          _currentPosition!.latitude,
+          _currentPosition!.longitude
       );
       Placemark place = placemarks[0];
       setState(() {
-        _currentAddress = "${place.street}, ${place.locality}, ${place.subLocality},"
-            " ${place.postalCode}, ${place.country}";
+        _currentAddress =
+        "${place.street}, ${place.locality}, ${place.subLocality}, ${place
+            .postalCode}, ${place.country}";
       });
-    } catch(err) {
-      print(err);
+    } catch (e) {
+      print(e);
     }
   }
-
-
-
-
-
-
-
 
 }
 
