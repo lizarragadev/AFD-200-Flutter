@@ -24,7 +24,7 @@ class MovieHorizontal extends StatelessWidget {
       }
     });
 
-    return Container(
+    return SizedBox(
       height: _screenSize.height * 0.2,
       child: PageView.builder(
         pageSnapping: false,
@@ -40,22 +40,22 @@ class MovieHorizontal extends StatelessWidget {
   Widget _tarjeta(Pelicula pelicula, BuildContext context) {
     pelicula.uniqueId = '${ pelicula.id }-poster';
     final tarjeta = Container(
-      margin: EdgeInsets.only(right: 15.0),
+      margin: const EdgeInsets.only(right: 15.0),
       child: Column(
-        children: <Widget>[
+        children: [
           Hero(
             tag: pelicula.uniqueId!,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
                 image: NetworkImage( pelicula.getPosterImg() ),
-                placeholder: AssetImage('images/no-image.jpg'),
+                placeholder: const AssetImage('images/no-image.jpg'),
                 fit: BoxFit.cover,
                 height: 120.0,
               ),
             ),
           ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           Text(
             pelicula.title!,
             overflow: TextOverflow.ellipsis,
