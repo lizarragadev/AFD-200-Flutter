@@ -10,17 +10,16 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     peliculasProvider.getPopulares();
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text("FlutterPelis"),
+        title: const Text("FlutterPelis"),
         backgroundColor: Colors.redAccent,
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(
                 context: context,
@@ -30,14 +29,12 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _swiperCards(),
-            _footer()
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _swiperCards(),
+          _footer()
+        ],
       ),
     );
   }
@@ -51,7 +48,7 @@ class HomePage extends StatelessWidget {
               peliculas: snapshot.data!,
             );
           } else {
-            return Container(
+            return const SizedBox(
               height: 400,
               child: Center(child: CircularProgressIndicator(),),
             );
@@ -61,14 +58,14 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _footer() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10,),
           Container(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: const Text("Populares", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
           ),
           const SizedBox(height: 10.0,),

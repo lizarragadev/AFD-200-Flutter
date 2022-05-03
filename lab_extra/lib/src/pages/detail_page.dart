@@ -17,7 +17,7 @@ class DetailPage extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                   [
-                    SizedBox( height: 10.0 ),
+                    const SizedBox( height: 10.0 ),
                     _posterTitulo( context, pelicula ),
                     _descripcion( pelicula ),
                     _descripcion( pelicula ),
@@ -42,7 +42,7 @@ class DetailPage extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         title: Padding(
-          padding: EdgeInsets.only(right: 10, left: 10),
+          padding: const EdgeInsets.only(right: 10, left: 10),
           child: Text(
             pelicula.title!,
             style: const TextStyle(color: Colors.white, fontSize: 16.0),
@@ -82,11 +82,11 @@ class DetailPage extends StatelessWidget {
               children: [
                 Text(pelicula.title!, overflow: TextOverflow.ellipsis ),
                 Text(pelicula.originalTitle!, overflow: TextOverflow.ellipsis ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Row(
                   children: [
                     const Icon( Icons.star_border ),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     Text( pelicula.voteAverage.toString() )
                   ],
                 )
@@ -138,24 +138,22 @@ class DetailPage extends StatelessWidget {
   }
 
   Widget _actorTarjeta( Actor actor ) {
-    return Container(
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                image: NetworkImage( actor.getFoto() ),
-                placeholder: AssetImage('images/no-image.jpg'),
-                height: 150.0,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Text(
-              actor.name!,
-              overflow: TextOverflow.ellipsis,
-            )
-          ],
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: FadeInImage(
+            image: NetworkImage( actor.getFoto() ),
+            placeholder: const AssetImage('images/no-image.jpg'),
+            height: 150.0,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Text(
+          actor.name!,
+          overflow: TextOverflow.ellipsis,
         )
+      ],
     );
   }
 }
