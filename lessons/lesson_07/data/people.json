@@ -1,0 +1,185 @@
+{
+	"name" : "Cognos People",
+	"people" : [
+		{
+			"country": "South Africa",
+			"region": "Pembrokeshire",
+			"name": "Callie Leach",
+			"image": "images/profile1.jpeg"
+		},
+		{
+			"country": "Chile",
+			"region": "Tây Ninh",
+			"name": "Sasha A. Montgomery",
+			"image": "images/profile2.jpeg"
+		},
+		{
+			"country": "Norway",
+			"region": "O'Higgins",
+			"name": "Marshall W. Castillo",
+			"image": "images/profile3.jpeg"
+		},
+		{
+			"country": "Mexico",
+			"region": "Calabarzon",
+			"name": "Keely Chapman",
+			"image": "images/profile4.jpeg"
+		},
+		{
+			"country": "Ukraine",
+			"region": "Victoria",
+			"name": "Brent V. Hancock",
+			"image": "images/profile5.jpeg"
+		},
+		{
+			"country": "Colombia",
+			"region": "Nairnshire",
+			"name": "Chester K. Wynn",
+			"image": "images/profile6.jpeg"
+		},
+		{
+			"country": "Peru",
+			"region": "Thái Nguyên",
+			"name": "McKenzie Johnson",
+			"image": "images/profile7.jpeg"
+		},
+		{
+			"country": "Singapore",
+			"region": "Dōngběi",
+			"name": "Justin W. Fitzpatrick",
+			"image": "images/profile8.jpeg"
+		},
+		{
+			"country": "South Korea",
+			"region": "Indiana",
+			"name": "Maris Hyde",
+			"image": "images/profile9.jpeg"
+		},
+		{
+			"country": "Costa Rica",
+			"region": "North Island",
+			"name": "Alea B. Randolph",
+			"image": "images/profile10.jpeg"
+		},
+		{
+			"country": "Germany",
+			"region": "Kyiv oblast",
+			"name": "Olga Mcneil",
+			"image": "images/profile11.jpeg"
+		},
+		{
+			"country": "Singapore",
+			"region": "West Java",
+			"name": "Elaine Foley",
+			"image": "images/profile12.jpeg"
+		},
+		{
+			"country": "Austria",
+			"region": "Maule",
+			"name": "Tana H. Singleton",
+			"image": "images/profile13.jpeg"
+		},
+		{
+			"country": "Germany",
+			"region": "Central Sulawesi",
+			"name": "Caesar P. Guy",
+			"image": "images/profile14.jpeg"
+		},
+		{
+			"country": "Norway",
+			"region": "Sachsen",
+			"name": "Cameron N. Buckley",
+			"image": "images/profile15.jpeg"
+		},
+		{
+			"country": "India",
+			"region": "North-East Region",
+			"name": "Shafira Medina",
+			"image": "images/profile16.jpeg"
+		},
+		{
+			"country": "United Kingdom",
+			"region": "North Island",
+			"name": "Angela L. Briggs",
+			"image": "images/profile17.jpeg"
+		},
+		{
+			"country": "Chile",
+			"region": "Noord Brabant",
+			"name": "Hakeem Bird",
+			"image": "images/profile18.jpeg"
+		},
+		{
+			"country": "Pakistan",
+			"region": "Sindh",
+			"name": "Lacy U. Sweet",
+			"image": "images/profile19.jpeg"
+		},
+		{
+			"country": "Ireland",
+			"region": "Coquimbo",
+			"name": "Michelle Yang",
+			"image": "images/profile20.jpeg"
+		},
+		{
+			"country": "Mexico",
+			"region": "Central Region",
+			"name": "Bree Sexton",
+			"image": "images/profile21.jpeg"
+		},
+		{
+			"country": "China",
+			"region": "Paraná",
+			"name": "Stewart Poole",
+			"image": "images/profile22.jpeg"
+		},
+		{
+			"country": "United States",
+			"region": "Murcia",
+			"name": "Lois Kirk",
+			"image": "images/profile23.jpeg"
+		},
+		{
+			"country": "New Zealand",
+			"region": "East Region",
+			"name": "Idona Turner",
+			"image": "images/profile24.jpeg"
+		},
+		{
+			"country": "China",
+			"region": "Atacama",
+			"name": "Garth S. Gould",
+			"image": "images/profile25.jpeg"
+		},
+		{
+			"country": "Indonesia",
+			"region": "Los Ríos",
+			"name": "Hammett D. Cohen",
+			"image": "images/profile26.jpeg"
+		},
+		{
+			"country": "Ireland",
+			"region": "Huádōng",
+			"name": "Charissa P. Villarreal",
+			"image": "images/profile27.jpeg"
+		},
+		{
+			"country": "United Kingdom",
+			"region": "South Island",
+			"name": "Marcia Potts",
+			"image": "images/profile28.jpeg"
+		},
+		{
+			"country": "Netherlands",
+			"region": "Prince Edward Island",
+			"name": "Charles K. Rice",
+			"image": "images/profile29.jpeg"
+		},
+		{
+			"country": "Chile",
+			"region": "Pará",
+			"name": "Tallulah J. Tyler",
+			"image": "images/profile30.jpeg"
+		}
+	]
+}
